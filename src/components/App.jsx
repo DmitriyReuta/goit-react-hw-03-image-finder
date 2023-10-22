@@ -62,7 +62,6 @@ export class App extends Component {
 
   render() {
     const { images, isLoading, selectedImage } = this.state;
-      const hasMoreImages = images.length < page * 12;
 
     return (
       <div>
@@ -79,7 +78,7 @@ export class App extends Component {
   color = '#e15b64'
 />}
         {images.length > 0 && !isLoading && (
-          <Button onClick={this.fetchImages} hasMoreImages={hasMoreImages} />
+          <Button onClick={this.fetchImages}/>
         )}
         <ModalComponent
           largeImageURL={selectedImage}

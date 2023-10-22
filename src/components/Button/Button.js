@@ -1,7 +1,7 @@
 import React from "react";
 
-export const Button = ({ onClick, hasMoreImages }) => (
- hasMoreImages &&  (<button onClick={onClick}>
+export const Button = ({ onClick }) => (
+ <button onClick={onClick}>
     Load more
-  </button> )
+  </button>
 );
