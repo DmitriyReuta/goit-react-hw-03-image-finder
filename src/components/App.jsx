@@ -61,7 +61,7 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading, selectedImage } = this.state;
+    const { images, isLoading, selectedImage, page } = this.state;
       const hasMoreImages = images.length < page * 12;
 
     return (
