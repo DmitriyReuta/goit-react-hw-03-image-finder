@@ -16,7 +16,7 @@ export class App extends Component {
     selectedImage: "",
   };
 
-  componentDidUpdate(prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query) {
       this.fetchImages();
     }
@@ -62,7 +62,7 @@ export class App extends Component {
 
   render() {
     const { images, isLoading, selectedImage, page } = this.state;
-      const hasMoreImages = images.length < page * 12;
+    const hasMoreImages = images.length < page * 12;
 
     return (
       <div>
