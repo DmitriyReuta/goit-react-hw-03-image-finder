@@ -78,7 +78,7 @@ export class App extends Component {
   glassColor = '#c0efff'
   color = '#e15b64'
 />}
-        {hasMoreImages > 0 && !isLoading && (
+        {hasMoreImages && !isLoading && (
           <Button onClick={this.fetchImages} hasMoreImages={hasMoreImages} />
         )}
         <ModalComponent
