@@ -5,7 +5,8 @@ import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { Button } from "./Button/Button";
 import { ModalComponent } from "./Modal/Modal";
 import { Searchbar } from "./Searchbar/Searchbar";
-import { MagnifyingGlass } from 'react-loader-spinner'
+import { MagnifyingGlass } from 'react-loader-spinner';
+
 export class App extends Component {
   state = {
     query: "",
@@ -14,11 +15,12 @@ export class App extends Component {
     isLoading: false,
     showModal: false,
     selectedImage: "",
+    hasMoreImages: true,
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query) {
-      this.fetchImages();
+      this.setState({ page: 1, images: [], hasMoreImages: true }, this.fetchImages);
     }
   }
 
@@ -36,6 +38,7 @@ export class App extends Component {
         this.setState((prevState) => ({
           images: [...prevState.images, ...response.data.hits],
           page: prevState.page + 1,
+          hasMoreImages: response.data.hits.length === perPage,
         }));
       })
       .catch((error) => console.error("Error fetching images: ", error))
@@ -49,7 +52,7 @@ export class App extends Component {
   };
 
   handleQuerySubmit = (query) => {
-    this.setState({ query, page: 1, images: [] });
+    this.setState({ query });
   };
 
   handleImageClick = (largeImageURL) => {
@@ -61,24 +64,25 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading, selectedImage, page } = this.state;
-    const hasMoreImages = images.length < page * 12;
+    const { images, isLoading, selectedImage, hasMoreImages } = this.state;
 
     return (
       <div>
         <Searchbar onSubmit={this.handleQuerySubmit} />
         <ImageGallery images={images} onImageClick={this.handleImageClick} />
-        {isLoading && <MagnifyingGlass
-  visible={true}
-  height="80"
-  width="80"
-  ariaLabel="MagnifyingGlass-loading"
-  wrapperStyle={{}}
-  wrapperClass="MagnifyingGlass-wrapper"
-  glassColor = '#c0efff'
-  color = '#e15b64'
-/>}
-        {hasMoreImages && !isLoading && (
+        {isLoading && (
+          <MagnifyingGlass
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="MagnifyingGlass-loading"
+            wrapperStyle={{}}
+            wrapperClass="MagnifyingGlass-wrapper"
+            glassColor="#c0efff"
+            color="#e15b64"
+          />
+        )}
+        {!images.length ? null : hasMoreImages && !isLoading && (
           <Button onClick={this.fetchImages} hasMoreImages={hasMoreImages} />
         )}
         <ModalComponent
